@@ -12,6 +12,7 @@ from numpy import *
 from bvh_skeleton import h36m_skeleton
 import numpy as np
 import pandas as pd
+import shutil
 
 add_path()
 
@@ -126,6 +127,17 @@ def uploadForm():
 @app.route("/api/v1/csvToBvh",methods=["POST"])
 @cross_origin()
 def convert_csv_to_bvh():
+    for root, dirs, files in os.walk('./file_uploads'):
+        for f in files:
+            os.unlink(os.path.join(root, f))
+        for d in dirs:
+            shutil.rmtree(os.path.join(root, d))
+    
+    for root, dirs, files in os.walk('./bvhFiles/file_uploads'):
+        for f in files:
+            os.unlink(os.path.join(root, f))
+        for d in dirs:
+            shutil.rmtree(os.path.join(root, d))
     
     if 'file' not in request.files:
         resp = jsonify({'message' : 'No file part in the request'})
