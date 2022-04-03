@@ -144,7 +144,7 @@ def convert_csv_to_bvh():
         resp.status_code = 400
         return resp
     file = request.files['file']
-    full_filepath='./file_uploads/'+file.filename
+    full_filepath='./file_uploads/'+file.filename 
     data=pd.read_csv(file)
     data = dataSmooth(data)
     prediction = dataProcess(data)
@@ -152,7 +152,6 @@ def convert_csv_to_bvh():
     rot = np.array([0.14070565, -0.15007018, -0.7552408, 0.62232804], dtype=np.float32)
     prediction = camera_to_world(prediction, R=rot, t=0)
     prediction[:, :, 2] -= np.min(prediction[:, :, 2])
-
     prediction_copy = np.copy(prediction)
     outputpath = "bvhFiles/"
     write_standard_bvh(outputpath,prediction_copy,full_filepath)
@@ -171,9 +170,7 @@ def convert_csv_to_bvh():
         print(originalFileName)
         print(os.path.join(app.config['DOWNLOAD_FOLDER']))
         try:
-            # return send_from_directory(directory=os.path.join(app.config['DOWNLOAD_FOLDER']),path=originalFileName,as_attachment=True)
             return send_file('./bvhFiles/file_uploads/'+originalFileName,as_attachment=True)
-            # return resp
         except FileNotFoundError:
             abort(404)
 
