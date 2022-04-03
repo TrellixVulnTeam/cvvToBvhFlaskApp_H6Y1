@@ -16,8 +16,14 @@
       $(function () {
         $("#upload-file-btn").click(function () {
           console.log($("#upload-file")[0]);
-          fileFakePath = document.getElementById("input_file").value;
-          originalFileName = fileFakePath.split("\\").pop().split(".")[0];
+          var fileFakePath = document.getElementById("input_file").value;
+          var allowedExtensions = /(\.csv)$/i;
+          if (!allowedExtensions.exec(fileFakePath)) {
+            alert("Invalid file type, please upload a .csv file.");
+            fileFakePath.value = "";
+            return false;
+          }
+          var originalFileName = fileFakePath.split("\\").pop().split(".")[0];
           var form_data = new FormData($("#upload-file")[0]);
           $.ajax({
             type: "POST",
@@ -53,22 +59,18 @@
       });
     </script>
   </head>
-  <body>
-    <h2>Please upload your input CSV data to convert into animation file</h2>
+  <body class="m-3">
+    <h2>Please upload your input data to generate a MOCAP file</h2>
     <form id="upload-file" method="post" enctype="multipart/form-data">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Upload</span>
-        </div>
-        <div class="custom-file">
-          <label class="custom-file-label" for="file">Choose file</label>
-          <input
-            type="file"
-            class="custom-file-input"
-            id="input_file"
-            name="file"
-          />
-        </div>
+      <div class="form-group">
+        <input
+          type="file"
+          class="form-control-file"
+          id="input_file"
+          name="file"
+        />
+      </div>
+      <div class="form-group">
         <button class="btn btn-primary" type="button" id="upload-file-btn">
           Upload
         </button>

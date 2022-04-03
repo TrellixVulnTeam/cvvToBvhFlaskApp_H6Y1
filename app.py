@@ -208,4 +208,4 @@ def write_standard_bvh(outbvhfilepath,prediction3dpoint,filename):
     human36m_skeleton.poses2bvh(prediction3dpoint,output_file=bvhfileName)
 
 if __name__ == "__main__":
-    app.run(debug=True,threaded=True)
+    app.run(host='0.0.0.0',debug=True,threaded=True)
