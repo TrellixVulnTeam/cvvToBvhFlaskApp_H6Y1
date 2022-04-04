@@ -167,8 +167,8 @@ def convert_csv_to_bvh():
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
         originalFileName=filename.split('.')[0]+'.bvh'
-        print(originalFileName)
-        print(os.path.join(app.config['DOWNLOAD_FOLDER']))
+        # print(originalFileName)
+        # print(os.path.join(app.config['DOWNLOAD_FOLDER']))
         try:
             return send_file('./bvhFiles/file_uploads/'+originalFileName,as_attachment=True)
         except FileNotFoundError:
