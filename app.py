@@ -16,8 +16,8 @@ import shutil
 
 add_path()
 
-UPLOAD_FOLDER = 'file_uploads'
-DOWNLOAD_FOLDER = 'bvh_files/file_uploads'
+UPLOAD_FOLDER = 'fileUploads'
+DOWNLOAD_FOLDER = 'bvh_files/fileUploads'
 
 
 app = Flask(__name__,template_folder='./flaskApp/template')
@@ -127,13 +127,13 @@ def uploadForm():
 @app.route("/api/v1/csvToBvh",methods=["POST"])
 @cross_origin()
 def convert_csv_to_bvh():
-    for root, dirs, files in os.walk('./file_uploads'):
+    for root, dirs, files in os.walk('./fileUploads'):
         for f in files:
             os.unlink(os.path.join(root, f))
         for d in dirs:
             shutil.rmtree(os.path.join(root, d))
     
-    for root, dirs, files in os.walk('./bvhFiles/file_uploads'):
+    for root, dirs, files in os.walk('./bvhFiles/fileUploads'):
         for f in files:
             os.unlink(os.path.join(root, f))
         for d in dirs:
@@ -144,7 +144,7 @@ def convert_csv_to_bvh():
         resp.status_code = 400
         return resp
     file = request.files['file']
-    full_filepath='./file_uploads/'+file.filename 
+    full_filepath='./fileUploads/'+file.filename 
     data=pd.read_csv(file)
     data = dataSmooth(data)
     prediction = dataProcess(data)
@@ -170,7 +170,7 @@ def convert_csv_to_bvh():
         originalFileName=filename.split('.')[0]+'.bvh'
         # print(os.path.join(app.config['DOWNLOAD_FOLDER']))
         try:
-            return send_file('./bvhFiles/file_uploads/'+originalFileName,as_attachment=True)
+            return send_file('./bvhFiles/fileUploads/'+originalFileName,as_attachment=True)
         except FileNotFoundError:
             abort(404)
 
