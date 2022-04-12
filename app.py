@@ -168,7 +168,6 @@ def convert_csv_to_bvh():
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
         originalFileName=filename.split('.')[0]+'.bvh'
-        # print(originalFileName)
         # print(os.path.join(app.config['DOWNLOAD_FOLDER']))
         try:
             return send_file('./bvhFiles/file_uploads/'+originalFileName,as_attachment=True)
@@ -193,7 +192,7 @@ def write_standard_bvh(outbvhfilepath,prediction3dpoint,filename):
             Z = point3d[2]
 
             point3d[0] = X + 100
-            point3d[1] = -Z +150
+            point3d[1] = -Z + 175
             point3d[2] = Y + 200
 
     dir_name = os.path.dirname(outbvhfilepath)
